@@ -27,6 +27,11 @@ int main() {
 
 	}
 
+	while (counter > 0) {
+		--counter;
+		Sleep(1000);
+	}
+
 	HarpoonError res = Harpoon::hook(DotE, waitTime);
 
 	if (res != "") {
