@@ -16,7 +16,8 @@
 #define fmono_class_get_method_from_name strings + 36 + padptr * 5
 #define fmono_runtime_invoke strings + 36 + padptr * 6
 #define fmono_assembly_get_image strings + 36 + padptr * 7
-#define sDll strings + 36 + padptr * 8
+#define fmono_string_new strings + 36 + padptr * 8
+#define sDll strings + 36 + padptr * 9
 
 //Minimal mono injector
 __declspec(dllexport) unsigned int initialize(char *strings) {
@@ -43,17 +44,20 @@ __declspec(dllexport) unsigned int initialize(char *strings) {
 
 	void *image = mono_assembly_get_image(domainAssembly);
 	void *monoClass = mono_class_from_name(image, sHarpoon_Core, sHarpoonCore);
-	void *monoMethod = mono_class_get_method_from_name(monoClass, sInitialize, 0);
+	void *monoMethod = mono_class_get_method_from_name(monoClass, sInitialize, 1);
 
 	//Invoke function
 
 	void* (*mono_runtime_invoke)(void*, void*, void**, void*) = *(void**)(fmono_runtime_invoke);
 
-	//Next step:
-	//void *args[1];
-	//args[0] = mono_string_new(mono_get_domain(), sDll);
+	void* (*mono_string_new)(void*, char*) = *(void**)(fmono_string_new);
 
-	mono_runtime_invoke(monoMethod, 0, 0 /* args */, 0);
+	void *string = mono_string_new(mono_domain_get(), sDll);
+
+	void *args[1];
+	args[0] = string;
+
+	mono_runtime_invoke(monoMethod, 0, args, 0);
 
 	return 1;
 

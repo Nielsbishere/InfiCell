@@ -168,9 +168,15 @@ HarpoonError hook(DWORD processId, size_t wait) {
 
 	//Load dll into memory
 
-	const char *harpoonLoader = OUTDIR "HarpoonLoader.dll";
+	char currDir[MAX_PATH + 1];
+	memset(currDir, 0, MAX_PATH + 1);
 
-	HMODULE dllh = LoadLibraryA(harpoonLoader);
+	GetCurrentDirectoryA(MAX_PATH, currDir);
+
+	std::string workingDir = currDir;
+	std::string harpoonLoader = workingDir + "\\HarpoonLoader.dll";
+
+	HMODULE dllh = LoadLibraryA(harpoonLoader.c_str());
 
 	if (dllh == nullptr)
 		return "Couldn't find HarpoonLoader";
@@ -240,7 +246,8 @@ HarpoonError hook(DWORD processId, size_t wait) {
 		"mono_class_from_name",
 		"mono_class_get_method_from_name",
 		"mono_runtime_invoke",
-		"mono_assembly_get_image"
+		"mono_assembly_get_image",
+		"mono_string_new"
 	};
 
 	auto functionMap = getFunctions(mono, funcs, err);
@@ -255,8 +262,8 @@ HarpoonError hook(DWORD processId, size_t wait) {
 
 	//TODO: Instead of OUTDIR use current working directory
 
-	std::string csdll = OUTDIR "Harpoon.Core.dll";
-	size_t datSiz = 36 + pad * 8 + csdll.size() + 1;
+	std::string csdll = workingDir + "\\Harpoon.Core.dll";
+	size_t datSiz = 36 + pad * 9 + csdll.size() + 1;
 
 	char *data = new char[datSiz];
 	memset(data, 0, datSiz);
@@ -276,12 +283,12 @@ HarpoonError hook(DWORD processId, size_t wait) {
 	*(void**)(data + 36 + pad * 5) = functionMap["mono_class_get_method_from_name"];
 	*(void**)(data + 36 + pad * 6) = functionMap["mono_runtime_invoke"];
 	*(void**)(data + 36 + pad * 7) = functionMap["mono_assembly_get_image"];
+	*(void**)(data + 36 + pad * 8) = functionMap["mono_string_new"];
 
-	memcpy(data + 36 + pad * 8, csdll.c_str(), csdll.size());
+	memcpy(data + 36 + pad * 9, csdll.c_str(), csdll.size());
 
 	LPVOID dat = allocBuffer(process, data, datSiz, false, err);
 
-	std::vector<char> chars(data, data + datSiz);					//Just for testing the buffer that we sent
 	delete[] data;
 
 	if (err != HarpoonError_None) {

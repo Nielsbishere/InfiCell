@@ -23,21 +23,23 @@ namespace Harpoon.Core
             return mods[name];
         }
 
-        public static void Initialize()
+        public static void Initialize(string dllPath)
         {
+            Console.WriteLine("Loading assemblies...");
+
             try
             {
-                Console.WriteLine("Loading assemblies...");
 
                 //These are just 'reflective' assemblies. They aren't executed.
                 List<Assembly> modAssemblies = new List<Assembly>();
 
-                //string modDir = Directory.GetParent(dllPath) + "\\mods";
+                string modDir = Directory.GetParent(dllPath) + "\\mods";
+                //string modDir = Directory.GetCurrentDirectory() + "\\mods";
 
                 //Check for dlls
-                Console.WriteLine("Scanning " + Directory.GetCurrentDirectory() + "\\mods");
+                Console.WriteLine("Scanning " + modDir);
 
-                string[] dlls = Directory.GetFiles(Directory.GetCurrentDirectory() + "\\mods", "*.dll");
+                string[] dlls = Directory.GetFiles(modDir, "*.dll");
 
                 Console.WriteLine($"Number of dlls in dir {dlls.Length}");
 
@@ -46,10 +48,10 @@ namespace Harpoon.Core
                 //Categorize the dlls on if they have an Initializable
                 foreach (string mod in dlls)
                 {
-                    
+
                     //Load mods themselves
 
-                   Console.WriteLine("Checking " + mod);
+                    Console.WriteLine("Checking " + mod);
 
                     try
                     {
