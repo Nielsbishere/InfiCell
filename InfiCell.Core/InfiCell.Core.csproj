@@ -31,10 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DotEMod.cs" />
+    <Compile Include="InfiCell.cs" />
+    <Compile Include="InfiCellMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Harmony\Harmony.csproj">
+      <Project>{165CCA93-C1A1-442B-BCBB-957BD964DB05}</Project>
+      <Name>Harmony</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Harpoon.Core\Harpoon.Core.csproj">
       <Project>{883c4b5b-df41-49bd-8efe-567f1dbd793d}</Project>
       <Name>Harpoon.Core</Name>

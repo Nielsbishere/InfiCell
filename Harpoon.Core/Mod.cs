@@ -42,7 +42,8 @@ namespace Harpoon.Core
 				AuthorName = "Your Name",
 				ModDescription = "A new beginning to a wonderful mod!",
 				ModName = "",
-				ModVersion = "0.0.0"
+				ModVersion = "0.0.0",
+                Priority = 2
 			};
 
         public virtual void Initialize()
