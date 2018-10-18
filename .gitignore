@@ -1,0 +1,17 @@
+*.ipdb
+*.iobj
+*.exp
+*.dll
+.vs/
+Harpoon/x64/
+HarpoonLoader/x64/
+Harpoon.Core/obj/Release/
+Harpoon.Core/obj/
+Harpoon/Debug/
+Harpoon/Release/
+HarpoonLoader/Debug/
+HarpoonLoader/Release/
+InfiCell/Release/
+InfiCell/x64/
+InfiCell/Debug/
+InfiCell.Core/obj/
