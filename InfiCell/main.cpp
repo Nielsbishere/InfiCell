@@ -4,7 +4,8 @@
 using namespace hp;
 
 const char DotE[] = "DungeonoftheEndless.exe";
-const size_t startTime = 10;						//Max start time (until process exists) of 10 seconds
+const size_t startTime = 60;						//Max start time (until process exists) of 60 seconds
+const size_t minStartTime = 10;						//Min start time (if process already exists) of 10 seconds
 const size_t waitTime = 20;							//Max wait time (until mono exists) of 20 seconds
 
 //The one executing this should determine to use 32-bit or 64-bit
@@ -27,7 +28,7 @@ int main() {
 
 	}
 
-	while (counter > 0) {
+	while (counter >= (startTime - minStartTime)) {
 		--counter;
 		Sleep(1000);
 	}

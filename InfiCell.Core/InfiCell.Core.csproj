@@ -31,8 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="InfiCell.cs" />
-    <Compile Include="InfiCellMod.cs" />
+    <Compile Include="Listeners\IDungeonListener.cs" />
+    <Compile Include="Listeners\IListener.cs" />
+    <Compile Include="Core\InfiCell.cs" />
+    <Compile Include="Core\InfiCellMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
